@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soketio</title>
+  </head>
+  <body>
+    <h1>Hello world server is started!</h1>
+
+    <input id="msgInput" type="text" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send Message</button>
+    <p id="res"></p>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      function sendMessage() {
+        const msg = document.getElementById("msgInput").value;
+        socket.emit("chatMessage", msg);
+        document.getElementById("msgInput").value = "";
+        socket.on("response", (data) => {
+          console.log("Got from server:", data);
+          document.getElementById("res").innerText = data;
+        });
+      }
+    </script>
+  </body>
+</html>
